@@ -2,7 +2,7 @@
 {
     public class Greeter
     {
-        public string Greet(string name)
+        public string Greet(string name = "World")
         {
             return $"Hello {name}!";
         }
