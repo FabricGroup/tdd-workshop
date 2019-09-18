@@ -19,5 +19,18 @@ namespace HelloWorldTests
             //Assert
             Assert.That(greeting, Is.EqualTo("Hello John!")); 
         }
+        
+        [Test]
+        public void ShouldGreetWithThePersonsNameIfTheNameIsNotProvided()
+        {
+            //Setup
+            var greeter = new Greeter(); 
+
+            //Act
+            var greeting = greeter.Greet(); 
+            
+            //Assert
+            Assert.That(greeting, Is.EqualTo("Hello World!")); 
+        }
     }
 }
