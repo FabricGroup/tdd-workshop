@@ -1,4 +1,5 @@
 ﻿using HelloWorld;
+using Moq;
 using NUnit.Framework;
 
 namespace HelloWorldTests
@@ -8,11 +9,13 @@ namespace HelloWorldTests
     public class GreeterTests
     {
         private Greeter _greeter;
+        private Mock<ISend> _mockSender;
 
         [SetUp]
         public void SetUp()
         {
-            _greeter = new Greeter();
+            _mockSender = new Mock<ISend>();
+            _greeter = new Greeter(_mockSender.Object);
         }
 
         [TestCase(new[] {"John"}, "Hello John!")]
@@ -26,6 +29,20 @@ namespace HelloWorldTests
 
             //Assert
             Assert.That(greeting, Is.EqualTo(expectedGreeting));
+        }
+
+
+        [TestCase(new[] {"John"}, "Hello John!")]
+        [TestCase(new[] {"John", "Lisa", "Ravi"}, "Hello John, Lisa, and Ravi!")]
+        [TestCase(new string[0], "Hello World!")]
+        [TestCase(null, "Hello World!")]
+        public void ShouldSendTheGreeting(string[] names, string expectedGreeting)
+        {
+            //Act
+            _greeter.SendGreeting(names);
+
+            //Assert
+            _mockSender.Verify(x => x.Send(expectedGreeting));
         }
     }
 }
