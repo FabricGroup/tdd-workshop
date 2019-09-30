@@ -30,7 +30,7 @@ namespace HelloWorldTests
             var greeting = greeter.Greet("John", "Lisa", "Ravi"); 
             
             //Assert
-            Assert.That(greeting, Is.EqualTo("Hello John, Lisa, Ravi!")); 
+            Assert.That(greeting, Is.EqualTo("Hello John, Lisa, and Ravi!")); 
         }
         
         [Test]
