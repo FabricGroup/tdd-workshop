@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace HelloWorld
 {
@@ -23,9 +24,9 @@ namespace HelloWorld
             return $"{string.Join(", ", names.Take(names.Length - 1))}, and {names.Last()}";
         }
 
-        public void SendGreeting(params string[] names)
+        public void SendGreeting(string[] names, DateTime? dateToSend = null)
         {
-            _sender.Send(Greet(names));
+            _sender.Send(Greet(names), dateToSend ?? DateTime.Now);
         }
     }
 }

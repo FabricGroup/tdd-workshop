@@ -1,4 +1,5 @@
-﻿using HelloWorld;
+﻿using System;
+using HelloWorld;
 using Moq;
 using NUnit.Framework;
 
@@ -41,7 +42,20 @@ namespace HelloWorldTests
             _greeter.SendGreeting(names);
 
             //Assert
-            _mockSender.Verify(x => x.Send(expectedGreeting));
+            _mockSender.Verify(x => x.Send(expectedGreeting, DateTime.Now));
+        }
+
+        [Test]
+        public void ShouldPassTheDateToSendToTheSender()
+        {
+            var dateToSend = DateTime.Now.AddDays(10);
+            //Act
+            
+            _greeter.SendGreeting(new[]{"John"}, dateToSend);
+
+            //Assert
+            _mockSender.Verify(x => x.Send("Hello John!", dateToSend));
+   
         }
     }
 }
