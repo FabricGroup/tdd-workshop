@@ -7,43 +7,25 @@ namespace HelloWorldTests
     [TestFixture]
     public class GreeterTests
     {
-        [Test]
-        public void ShouldGreetWithThePersonsNameIfTheNameIsProvided()
-        {
-            //Setup
-            var greeter = new Greeter(); 
+        private Greeter _greeter;
 
-            //Act
-            var greeting = greeter.Greet("John"); 
-            
-            //Assert
-            Assert.That(greeting, Is.EqualTo("Hello John!")); 
+        [SetUp]
+        public void SetUp()
+        {
+            _greeter = new Greeter();
         }
 
-        [Test]
-        public void ShouldBeAbleToGreetManyPeople()
+        [TestCase(new[] {"John"}, "Hello John!")]
+        [TestCase(new[] {"John", "Lisa", "Ravi"}, "Hello John, Lisa, and Ravi!")]
+        [TestCase(new string[0], "Hello World!")]
+        [TestCase(null, "Hello World!")]
+        public void ShouldGenerateTheCorrectGreeting(string[] names, string expectedGreeting)
         {
-            //Setup
-            var greeter = new Greeter(); 
-
             //Act
-            var greeting = greeter.Greet("John", "Lisa", "Ravi"); 
-            
-            //Assert
-            Assert.That(greeting, Is.EqualTo("Hello John, Lisa, and Ravi!")); 
-        }
-        
-        [Test]
-        public void ShouldGreetWithThePersonsNameIfTheNameIsNotProvided()
-        {
-            //Setup
-            var greeter = new Greeter(); 
+            var greeting = _greeter.Greet(names);
 
-            //Act
-            var greeting = greeter.Greet(); 
-            
             //Assert
-            Assert.That(greeting, Is.EqualTo("Hello World!")); 
+            Assert.That(greeting, Is.EqualTo(expectedGreeting));
         }
     }
 }

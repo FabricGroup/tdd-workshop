@@ -6,7 +6,7 @@ namespace HelloWorld
     {
         public string Greet(params string[] names)
         {
-            var peopleToGreet = names.Length == 0 ? "World" : PeopleToGreet(names);
+            var peopleToGreet = names?.Length > 0 ? PeopleToGreet(names) : "World";
             return $"Hello {peopleToGreet}!";
         }
 
