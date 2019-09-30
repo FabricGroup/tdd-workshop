@@ -25,7 +25,7 @@ namespace HelloWorld
 
         public void SendGreeting(params string[] names)
         {
-            throw new System.NotImplementedException();
+            _sender.Send(Greet(names));
         }
     }
 }

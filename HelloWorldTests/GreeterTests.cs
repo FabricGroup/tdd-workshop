@@ -31,7 +31,6 @@ namespace HelloWorldTests
             Assert.That(greeting, Is.EqualTo(expectedGreeting));
         }
 
-
         [TestCase(new[] {"John"}, "Hello John!")]
         [TestCase(new[] {"John", "Lisa", "Ravi"}, "Hello John, Lisa, and Ravi!")]
         [TestCase(new string[0], "Hello World!")]
