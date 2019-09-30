@@ -11,12 +11,14 @@ namespace HelloWorldTests
     {
         private Greeter _greeter;
         private Mock<ISend> _mockSender;
+        private Mock<DateTimeWrapper> _mockDateTimeWrapper;
 
         [SetUp]
         public void SetUp()
         {
             _mockSender = new Mock<ISend>();
-            _greeter = new Greeter(_mockSender.Object);
+            _mockDateTimeWrapper = new Mock<DateTimeWrapper>();
+            _greeter = new Greeter(_mockSender.Object, _mockDateTimeWrapper.Object);
         }
 
         [TestCase(new[] {"John"}, "Hello John!")]
@@ -38,11 +40,14 @@ namespace HelloWorldTests
         [TestCase(null, "Hello World!")]
         public void ShouldSendTheGreeting(string[] names, string expectedGreeting)
         {
+            var expectedDate = DateTime.Now.AddDays(-10);
+            _mockDateTimeWrapper.SetupGet(x => x.Now).Returns(expectedDate);
+
             //Act
             _greeter.SendGreeting(names);
 
             //Assert
-            _mockSender.Verify(x => x.Send(expectedGreeting, DateTime.Now));
+            _mockSender.Verify(x => x.Send(expectedGreeting, expectedDate));
         }
 
         [Test]
@@ -50,12 +55,12 @@ namespace HelloWorldTests
         {
             var dateToSend = DateTime.Now.AddDays(10);
             //Act
-            
-            _greeter.SendGreeting(new[]{"John"}, dateToSend);
+
+            _greeter.SendGreeting(new[] {"John"}, dateToSend);
 
             //Assert
             _mockSender.Verify(x => x.Send("Hello John!", dateToSend));
-   
+            _mockDateTimeWrapper.Verify(x => x.Now, Times.Never);
         }
     }
 }

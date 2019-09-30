@@ -6,10 +6,12 @@ namespace HelloWorld
     public class Greeter
     {
         private readonly ISend _sender;
+        private readonly DateTimeWrapper _dateTimeWrapper;
 
-        public Greeter(ISend sender)
+        public Greeter(ISend sender, DateTimeWrapper dateTimeWrapper)
         {
             _sender = sender;
+            _dateTimeWrapper = dateTimeWrapper;
         }
 
         public string Greet(params string[] names)
@@ -26,7 +28,7 @@ namespace HelloWorld
 
         public void SendGreeting(string[] names, DateTime? dateToSend = null)
         {
-            _sender.Send(Greet(names), dateToSend ?? DateTime.Now);
+            _sender.Send(Greet(names), dateToSend ?? _dateTimeWrapper.Now);
         }
     }
 }
